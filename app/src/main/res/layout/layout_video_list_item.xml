@@ -19,18 +19,17 @@
         android:layout_marginStart="20dp"
         android:text="@string/dummy_title"/>
 
-    <View
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="60"
-        android:id="@+id/media_container"/>
+        android:id="@+id/media_container">
 
-    <!--<com.google.android.exoplayer2.ui.PlayerView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:id="@+id/player_view">-->
 
-    <!--</com.google.android.exoplayer2.ui.PlayerView>-->
+
+    </RelativeLayout>
+
 
     <TextView
         android:layout_width="wrap_content"

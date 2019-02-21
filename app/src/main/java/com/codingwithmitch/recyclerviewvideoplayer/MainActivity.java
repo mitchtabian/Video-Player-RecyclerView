@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static final float LOWER_BOUND = 0.07f;
     public static final float UPPER_BOUND = 0.67f;
-    public static final float ELLIPSES = 0.04f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
     }
-
 
 }
 

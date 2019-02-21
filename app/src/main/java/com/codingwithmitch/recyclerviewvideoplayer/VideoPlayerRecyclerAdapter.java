@@ -11,7 +11,6 @@ import com.codingwithmitch.recyclerviewvideoplayer.models.MediaObject;
 
 import java.util.ArrayList;
 
-import static com.codingwithmitch.recyclerviewvideoplayer.MainActivity.ELLIPSES;
 import static com.codingwithmitch.recyclerviewvideoplayer.MainActivity.UPPER_BOUND;
 
 public class VideoPlayerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -80,11 +79,6 @@ public class VideoPlayerRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         }
         viewHolder.title.setText(mediaObjects.get(position).getTitle());
         viewHolder.description.setText(mediaObjects.get(position).getDescription());
-//
-//        Log.d(TAG, "setViews: line count: " + viewHolder.description.getLineCount());
-//        Log.d(TAG, "setViews: line height: " + viewHolder.description.getLineHeight());
-//        Log.d(TAG, "setViews: decription height: " + descriptionHeight);
-//        Log.d(TAG, "setViews: " + (descriptionHeight / viewHolder.description.getLineHeight()));
 
         if(viewHolder.description.getLineCount() > (descriptionHeight / viewHolder.description.getLineHeight())){
             viewHolder.description.setMaxLines((descriptionHeight / viewHolder.description.getLineHeight()) - 1);
