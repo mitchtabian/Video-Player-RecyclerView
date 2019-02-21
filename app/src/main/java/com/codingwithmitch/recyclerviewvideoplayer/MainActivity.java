@@ -65,16 +65,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private ArrayList<String> prepareData(){
-        ArrayList<String> list = new ArrayList<>();
-        list.add("OFF");
-        list.add("OFF");
-        list.add("OFF");
-        list.add("OFF");
-        list.add("OFF");
-        list.add("OFF");
-        return list;
-    }
 
 }
 
