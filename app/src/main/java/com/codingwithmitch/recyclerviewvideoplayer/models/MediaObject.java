@@ -4,12 +4,14 @@ public class MediaObject {
 
     private String title;
     private String media_url;
+    private String thumbnail;
     private String description;
     private String playback_state;
 
-    public MediaObject(String title, String media_url, String description, String playback_state) {
+    public MediaObject(String title, String media_url, String thumbnail, String description, String playback_state) {
         this.title = title;
         this.media_url = media_url;
+        this.thumbnail = thumbnail;
         this.description = description;
         this.playback_state = playback_state;
     }
@@ -47,6 +49,14 @@ public class MediaObject {
 
     public void setPlayback_state(String playback_state) {
         this.playback_state = playback_state;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }
 
