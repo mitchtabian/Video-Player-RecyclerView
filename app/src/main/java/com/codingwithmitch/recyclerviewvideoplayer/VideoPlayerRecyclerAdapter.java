@@ -14,11 +14,6 @@ import java.util.ArrayList;
 
 public class VideoPlayerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = "adapter";
-
-    private static final int ON = 0;
-    private static final int OFF = 1;
-
     private ArrayList<MediaObject> mediaObjects;
     private RequestManager requestManager;
 
@@ -39,15 +34,7 @@ public class VideoPlayerRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         ((VideoPlayerViewHolder)viewHolder).onBind(mediaObjects.get(i), requestManager);
     }
-
-    @Override
-    public int getItemViewType(int position) {
-        if(mediaObjects.get(position).getPlayback_state().equals("OFF")){
-            return OFF;
-        }
-        return ON;
-    }
-
+    
     @Override
     public int getItemCount() {
         return mediaObjects.size();
