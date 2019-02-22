@@ -18,9 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -159,27 +156,27 @@ public class VideoPlayerRecyclerView extends RecyclerView {
             }
         });
 
-        addOnItemTouchListener(new OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                Log.d(TAG, "onInterceptTouchEvent: called.");
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    toggleVolume();
-                }
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                Log.d(TAG, "onTouchEvent: called.");
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-                Log.d(TAG, "onRequestDisallowInterceptTouchEvent: called.");
-            }
-        });
+//        addOnItemTouchListener(new OnItemTouchListener() {
+//            @Override
+//            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+//                Log.d(TAG, "onInterceptTouchEvent: called.");
+//                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+//                    toggleVolume();
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+//                Log.d(TAG, "onTouchEvent: called.");
+//
+//            }
+//
+//            @Override
+//            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+//                Log.d(TAG, "onRequestDisallowInterceptTouchEvent: called.");
+//            }
+//        });
 
         videoPlayer.addListener(new Player.EventListener() {
             @Override
@@ -261,10 +258,6 @@ public class VideoPlayerRecyclerView extends RecyclerView {
         });
     }
 
-    public void setMediaObjects(ArrayList<MediaObject> mediaObjects){
-        this.mediaObjects = mediaObjects;
-    }
-
     public void playVideo(boolean isEndOfList) {
 
         int targetPosition;
@@ -336,6 +329,8 @@ public class VideoPlayerRecyclerView extends RecyclerView {
 
         videoSurfaceView.setPlayer(videoPlayer);
 
+        viewHolderParent.setOnClickListener(videoViewClickListener);
+
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(
                 context, Util.getUserAgent(context, "RecyclerView VideoPlayer"));
         String mediaUrl = mediaObjects.get(targetPosition).getMedia_url();
@@ -346,6 +341,13 @@ public class VideoPlayerRecyclerView extends RecyclerView {
             videoPlayer.setPlayWhenReady(true);
         }
     }
+
+    private OnClickListener videoViewClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            toggleVolume();
+        }
+    };
 
     /**
      * Returns the visible region of the video surface on the screen.
@@ -384,6 +386,7 @@ public class VideoPlayerRecyclerView extends RecyclerView {
         if (index >= 0) {
             parent.removeViewAt(index);
             isVideoViewAdded = false;
+            viewHolderParent.setOnClickListener(null);
         }
 
     }
@@ -463,6 +466,9 @@ public class VideoPlayerRecyclerView extends RecyclerView {
         }
     }
 
+    public void setMediaObjects(ArrayList<MediaObject> mediaObjects){
+        this.mediaObjects = mediaObjects;
+    }
 }
 
 
