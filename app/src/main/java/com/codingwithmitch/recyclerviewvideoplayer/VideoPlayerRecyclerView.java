@@ -156,28 +156,6 @@ public class VideoPlayerRecyclerView extends RecyclerView {
             }
         });
 
-//        addOnItemTouchListener(new OnItemTouchListener() {
-//            @Override
-//            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-//                Log.d(TAG, "onInterceptTouchEvent: called.");
-//                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-//                    toggleVolume();
-//                }
-//                return false;
-//            }
-//
-//            @Override
-//            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-//                Log.d(TAG, "onTouchEvent: called.");
-//
-//            }
-//
-//            @Override
-//            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-//                Log.d(TAG, "onRequestDisallowInterceptTouchEvent: called.");
-//            }
-//        });
-
         videoPlayer.addListener(new Player.EventListener() {
             @Override
             public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
