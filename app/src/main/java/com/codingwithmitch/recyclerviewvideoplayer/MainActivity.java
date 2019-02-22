@@ -20,28 +20,27 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    private VideoPlayerRecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mRecyclerView = findViewById(R.id.recycler_view);
 
         initRecyclerView();
     }
 
     private void initRecyclerView(){
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
         VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(10);
-        recyclerView.addItemDecoration(itemDecorator);
+        mRecyclerView.addItemDecoration(itemDecorator);
 
-        final VideoPlayerRecyclerAdapter adapter = new VideoPlayerRecyclerAdapter(
-                new ArrayList<MediaObject>(Arrays.asList(Resources.MEDIA_OBJECTS)),
-                initGlide()
-        );
-
-        recyclerView.setAdapter(adapter);
+        ArrayList<MediaObject> mediaObjects = new ArrayList<MediaObject>(Arrays.asList(Resources.MEDIA_OBJECTS));
+        mRecyclerView.setMediaObjects(mediaObjects);
+        VideoPlayerRecyclerAdapter adapter = new VideoPlayerRecyclerAdapter(mediaObjects, initGlide());
+        mRecyclerView.setAdapter(adapter);
     }
 
     private RequestManager initGlide(){
@@ -51,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
 
         return Glide.with(this)
                 .setDefaultRequestOptions(options);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        if(mRecyclerView!=null)
+            mRecyclerView.releasePlayer();
+        super.onDestroy();
     }
 }
 

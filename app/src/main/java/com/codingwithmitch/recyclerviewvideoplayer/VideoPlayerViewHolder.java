@@ -12,13 +12,14 @@ import com.bumptech.glide.RequestManager;
 import com.codingwithmitch.recyclerviewvideoplayer.models.MediaObject;
 
 
-public class VideoPlayerViewHolder extends RecyclerView.ViewHolder  {
+public class VideoPlayerViewHolder extends RecyclerView.ViewHolder {
 
     FrameLayout media_container;
     TextView title;
-    ImageView thumbnail;
+    ImageView thumbnail, volumeControl;
     ProgressBar progressBar;
     View parent;
+    RequestManager requestManager;
 
     public VideoPlayerViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -27,15 +28,18 @@ public class VideoPlayerViewHolder extends RecyclerView.ViewHolder  {
         thumbnail = itemView.findViewById(R.id.thumbnail);
         title = itemView.findViewById(R.id.title);
         progressBar = itemView.findViewById(R.id.progressBar);
+        volumeControl = itemView.findViewById(R.id.volume_control);
     }
 
     public void onBind(MediaObject mediaObject, RequestManager requestManager) {
+        this.requestManager = requestManager;
         parent.setTag(this);
         title.setText(mediaObject.getTitle());
-        requestManager
+        this.requestManager
                 .load(mediaObject.getThumbnail())
                 .into(thumbnail);
     }
+
 }
 
 
