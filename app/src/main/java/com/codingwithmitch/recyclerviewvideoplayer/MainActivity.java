@@ -4,11 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.codingwithmitch.recyclerviewvideoplayer.models.MediaObject;
 import com.codingwithmitch.recyclerviewvideoplayer.util.Resources;
-import com.codingwithmitch.recyclerviewvideoplayer.util.Util;
+import com.codingwithmitch.recyclerviewvideoplayer.util.VerticalSpacingItemDecorator;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,65 +20,45 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    public static final float LOWER_BOUND = 0.07f;
-    public static final float UPPER_BOUND = 0.67f;
-    public static final float ELLIPSES = 0.04f;
+    private VideoPlayerRecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mRecyclerView = findViewById(R.id.recycler_view);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        initRecyclerView();
+    }
+
+    private void initRecyclerView(){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
+        VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(10);
+        mRecyclerView.addItemDecoration(itemDecorator);
 
-
-        final VideoPlayerRecyclerAdapter adapter = new VideoPlayerRecyclerAdapter(
-                new ArrayList<MediaObject>(Arrays.asList(Resources.MEDIA_OBJECTS)),
-                Util.getScreenHeight(getWindowManager(), getResources())
-        );
-
-        recyclerView.addOnScrollListener(new MyOnScrollListener(Util.getScreenHeight(getWindowManager(), getResources())) {
-
-            @Override
-            public void isWithinRange(float deltaY, float screenHeight) {
-
-                int n = 0;
-                if(deltaY >= (screenHeight * UPPER_BOUND)){
-                    n = (int) ((deltaY / screenHeight) + (1f - UPPER_BOUND));
-                }
-                adapter.setPositionInRange(n);
-                Log.d(TAG, "isWithinRange: deltaY: " + deltaY);
-                Log.d(TAG, "isWithinRange: n: " + n);
-
-                boolean isWithinRange;
-                if(n > 0){
-                    isWithinRange = (deltaY > ((n - 1 + UPPER_BOUND) * screenHeight) && deltaY < ((n + LOWER_BOUND) * screenHeight));
-                }
-                else{
-                    isWithinRange = (deltaY > 0) && (deltaY < LOWER_BOUND * screenHeight);
-                }
-                Log.d(TAG, "isWithinRange: is within range?: " + isWithinRange);
-                adapter.setIsWithinRange(isWithinRange);
-            }
-
-        });
-
-        recyclerView.setAdapter(adapter);
+        ArrayList<MediaObject> mediaObjects = new ArrayList<MediaObject>(Arrays.asList(Resources.MEDIA_OBJECTS));
+        mRecyclerView.setMediaObjects(mediaObjects);
+        VideoPlayerRecyclerAdapter adapter = new VideoPlayerRecyclerAdapter(mediaObjects, initGlide());
+        mRecyclerView.setAdapter(adapter);
     }
 
-    private ArrayList<String> prepareData(){
-        ArrayList<String> list = new ArrayList<>();
-        list.add("OFF");
-        list.add("OFF");
-        list.add("OFF");
-        list.add("OFF");
-        list.add("OFF");
-        list.add("OFF");
-        return list;
+    private RequestManager initGlide(){
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.white_background)
+                .error(R.drawable.white_background);
+
+        return Glide.with(this)
+                .setDefaultRequestOptions(options);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        if(mRecyclerView!=null)
+            mRecyclerView.releasePlayer();
+        super.onDestroy();
+    }
 }
 
 
